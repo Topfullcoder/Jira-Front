@@ -2,9 +2,9 @@ import { lazy } from "react";
 
 import IRoute from "./Types/Route";
 
-const Home = lazy(() => import("./pages/Home"));
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
+const Home = lazy(() => import("./pages/Home/Home"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const Register = lazy(() => import("./pages/Register/Register"));
 
 export const publicRoutes: IRoute[] = [
   {
