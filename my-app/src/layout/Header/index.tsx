@@ -8,7 +8,7 @@ import Icon, {
 } from "@ant-design/icons";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
 import { Menu, Button, MenuProps, Input, Avatar } from "antd";
-import LOGO_IMG from "./../../asserts/image/icon/Jira Software.svg";
+import LOGO_IMG from "./../../assets/image/icon/Jira Software.svg";
 import "./header.css";
 
 const items: MenuProps["items"] = [
@@ -112,12 +112,21 @@ const items: MenuProps["items"] = [
 
 const App: React.FC = () => {
   const [current, setCurrent] = useState("Homepage");
+  const [inputStyle, setInputStyle] = useState({ width: "150px" });
+
+  const handleFocus = () => {
+    setInputStyle({ width: "600px" });
+  };
+
+  const handelBlur = () => {
+    setInputStyle({ width: "150px" });
+  };
 
   const AppStroe = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
       <path
         fill="currentColor"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M4 5.01C4 4.451 4.443 4 5.01 4h1.98C7.549 4 8 4.443 8 5.01v1.98C8 7.549 7.557 8 6.99 8H5.01C4.451 8 4 7.557 4 6.99V5.01zm0 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C8 13.549 7.557 14 6.99 14H5.01C4.451 14 4 13.557 4 12.99v-1.98zm6-6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C14 7.549 13.557 8 12.99 8h-1.98C10.451 8 10 7.557 10 6.99V5.01zm0 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98zm6-6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C20 7.549 19.557 8 18.99 8h-1.98C16.451 8 16 7.557 16 6.99V5.01zm0 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98zm-12 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C8 19.549 7.557 20 6.99 20H5.01C4.451 20 4 19.557 4 18.99v-1.98zm6 0c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98zm6 0c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98z"
       ></path>
     </svg>
@@ -134,35 +143,43 @@ const App: React.FC = () => {
 
   return (
     <div className="app-menu-bar">
-      <div className="logo">
-        <div>
-          <AppStoreIcon style={{ fontSize: "32px" }} />
+      <div className="app-menu-bar-left">
+        <div className="logo">
+          <div>
+            <AppStoreIcon style={{ fontSize: "32px" }} />
+          </div>
+          <div>
+            <a>
+              <img src={LOGO_IMG} alt="NO LOGO" />
+            </a>
+          </div>
         </div>
-        <div>
-          <a>
-            <img src={LOGO_IMG} alt="NO LOGO" />
-          </a>
-        </div>
-      </div>
-      <div className="app-menu-item">
-        <div>
-          <Menu
-            className="header-menu"
-            mode="horizontal"
-            onClick={onClick}
-            selectedKeys={[current]}
-            items={items}
-          />
-        </div>
-        <div>
-          <Button type="primary" size="middle">
-            Create
-          </Button>
+        <div className="app-menu-item">
+          <div>
+            <Menu
+              className="header-menu"
+              mode="horizontal"
+              onClick={onClick}
+              selectedKeys={[current]}
+              items={items}
+            />
+          </div>
+          <div>
+            <Button type="primary" size="middle">
+              Create
+            </Button>
+          </div>
         </div>
       </div>
       <div className="app-actually-items">
         <div className="app-search-item">
-          <Input addonBefore={<SearchOutlined />} placeholder="Search" />
+          <Input
+            prefix={<SearchOutlined />}
+            style={inputStyle}
+            onFocus={handleFocus}
+            onBlur={handelBlur}
+            placeholder="Search"
+          />
         </div>
         <div>
           <BellFilled rotate={45} style={{ fontSize: "22px" }} />
@@ -174,7 +191,7 @@ const App: React.FC = () => {
           <SettingFilled style={{ fontSize: "22px" }} />
         </div>
         <div>
-          <Avatar icon={<UserOutlined style={{ fontSize: "22px" }} />} />
+          <Avatar icon={<UserOutlined style={{ fontSize: "15px" }} />} />
         </div>
       </div>
     </div>

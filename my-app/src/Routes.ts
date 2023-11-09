@@ -4,18 +4,21 @@ import IRoute from "./Types/Route";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
-const Register = lazy(() => import("./pages/Register/Register"));
+const Register = lazy(() => import("./pages/Login/Register"));
 
-export const publicRoutes: IRoute[] = [
+export const privateRoutes: IRoute[] = [
   {
     path: "/",
     element: Home,
     index: true,
   },
+];
+
+export const publicRoutes: IRoute[] = [
   {
-    path: "/login",
+    path: "/",
     element: Login,
-    index: false,
+    index: true,
   },
   {
     path: "/register",

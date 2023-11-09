@@ -11,7 +11,6 @@ function App() {
   return (
     <div className="App">
       <Layout>
-        <Header />
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             {publicRoutes?.map((route, idx) => (
@@ -24,7 +23,6 @@ function App() {
             ))}
           </Routes>
         </Suspense>
-        <Footer />
       </Layout>
     </div>
   );

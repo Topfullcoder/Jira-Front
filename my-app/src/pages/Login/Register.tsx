@@ -12,10 +12,10 @@ import {
   CenterContentBar,
   RightCenterBar,
 } from "./Background/Menu";
-import Login from "./../../components/LoginForm";
+import Register from "./../../components/RegisterForm";
 import "./login.css";
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const HeaderMenuBarIcon = (props: Partial<CustomIconComponentProps>) => (
     <Icon component={HeaderMenuBar} {...props} />
   );
@@ -47,9 +47,9 @@ const LoginForm: React.FC = () => {
       <RightContentBarIcon className="content-actually" />
       <CenterContentBarIcon className="center-content" />
       <RightCenterBarIcon className="content-right" />
-      <Login />
+      <Register />
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
