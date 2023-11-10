@@ -49,28 +49,25 @@ const App: React.FC = () => {
           </div>
           <h3 style={{ textAlign: "center" }}>Log in to continue</h3>
           <div>
-            <Input ref={inputRef} placeholder="Enter your Email" />
+            <Input ref={inputRef} placeholder="Enter your username" />
           </div>
           <div className="app-between" />
           <div>
+            <Input placeholder="Enter your password" />
+          </div>
+          <div className="app-between" />
+
+          <div>
             <Flex vertical gap="small" style={{ width: "100%" }}>
               <Button type="primary" block>
-                Continue
+                Sign in
               </Button>
             </Flex>
           </div>
           <p style={{ textAlign: "center" }}>Or continue with:</p>
           <div className="app-between" />
-          <Button icon={<GoogleSquareFilled />}>Google</Button>
-          <div className="app-between" />
-          <Button icon={<WindowsFilled />}>Microsoft</Button>
-          <div className="app-between" />
-          <Button icon={<AppleFilled />}>Apple</Button>
-          <div className="app-between" />
-          <Button icon={<SlackSquareFilled />}>Slack</Button>
-          <div className="app-between" />
           <div className="app-footer-text">
-            <Link to="/login">Can't log in this site</Link>
+            <Link to="/">I already have another mail.</Link>
             <p className="app-square">•</p>
             <Link to="/register">Create an account</Link>
           </div>
