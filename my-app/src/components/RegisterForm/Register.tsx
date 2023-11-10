@@ -12,8 +12,10 @@ import { UserData } from "../../redux/types";
 import { AppState } from "./../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+import { useNavigate } from "react-router-dom";
 
 const App: React.FC = () => {
+  const navigate = useNavigate();
   const inputRef = useRef<InputRef>(null);
   const dispatch: ThunkDispatch<AppState, any, AnyAction> = useDispatch();
   const error = useSelector((state: AppState) => state.user.error);

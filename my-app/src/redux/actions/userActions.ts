@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import axios from "axios"; // Assuming you're using axios for API calls
+import { redirect } from "react-router-dom";
 
 const http = process.env.REACT_APP_SERVER_URL;
 
@@ -54,6 +55,7 @@ export const registerFailure = (error: string): RegisterFailureAction => ({
   payload: error,
 });
 
+let err = false;
 // Asynchronous thunk action creator
 export const registerUser = (
   userData: UserData
@@ -65,8 +67,18 @@ export const registerUser = (
       // Replace with your actual API endpoint
       const response = await axios.post(`${http}/api/v1/auth/signup`, userData);
       dispatch(registerSuccess(response.data));
+      console.log("response.data", response.data);
     } catch (error: any) {
+      err = true;
+      console.log("error.message", error.message);
       dispatch(registerFailure(error.message));
+    } finally {
+      if (err === false) {
+        redirect("/");
+        console.log("Please help me.");
+      }
+      console.log("err", err);
+      if (err) err = false;
     }
   };
 };

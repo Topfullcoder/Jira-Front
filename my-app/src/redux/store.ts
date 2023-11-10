@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import userReducer from "./reducers/userReducers";
+import { authReducer } from "./reducers/authReducers";
 import thunk from "redux-thunk";
 
 declare global {
@@ -10,6 +11,7 @@ declare global {
 
 const rootReducer = combineReducers({
   user: userReducer,
+  auth: authReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

@@ -1,20 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, FormEvent } from "react";
 import { Input, Modal, Button, Flex } from "antd";
 import type { InputRef } from "antd";
-import Icon, {
-  GoogleSquareFilled,
-  WindowsFilled,
-  AppleFilled,
-  SlackSquareFilled,
-} from "@ant-design/icons";
+import Icon from "@ant-design/icons";
 import { JiraLogo, Atlassian } from "./../../pages/Login/Background/Menu";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
 import "./loginform.css";
 import { Link } from "react-router-dom";
+import { LoginCredentials } from "./../../redux/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "./../../redux/store";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { login } from "../../redux/actions/authActions";
 
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
-
+  const dispatch: ThunkDispatch<AppState, any, AnyAction> = useDispatch();
+  const defaultUserData: LoginCredentials = {
+    username: "",
+    password: "",
+  };
+  const [userinfo, setUserinfo] = useState(defaultUserData);
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -28,6 +34,17 @@ const App: React.FC = () => {
   const AtlassianIcon = (props: Partial<CustomIconComponentProps>) => (
     <Icon component={Atlassian} {...props} />
   );
+
+  const handle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserinfo((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    console.log(userinfo);
+    dispatch(login(userinfo));
+  };
 
   return (
     <div>
@@ -48,22 +65,37 @@ const App: React.FC = () => {
             <LogoIcon className="app-logo" />
           </div>
           <h3 style={{ textAlign: "center" }}>Log in to continue</h3>
-          <div>
-            <Input ref={inputRef} placeholder="Enter your username" />
-          </div>
-          <div className="app-between" />
-          <div>
-            <Input placeholder="Enter your password" />
-          </div>
-          <div className="app-between" />
+          <form onSubmit={onSubmit}>
+            <div>
+              <Input
+                ref={inputRef}
+                placeholder="Enter your First Name"
+                name="username"
+                value={userinfo.username}
+                onChange={handle}
+                required
+              />
+            </div>
+            <div className="app-between" />
+            <div>
+              <Input.Password
+                placeholder="Enter your password"
+                name="password"
+                value={userinfo.password}
+                onChange={handle}
+                required
+              />
+            </div>
+            <div className="app-between" />
 
-          <div>
-            <Flex vertical gap="small" style={{ width: "100%" }}>
-              <Button type="primary" block>
-                Sign in
-              </Button>
-            </Flex>
-          </div>
+            <div>
+              <Flex vertical gap="small" style={{ width: "100%" }}>
+                <Button type="primary" htmlType="submit" block>
+                  Sign in
+                </Button>
+              </Flex>
+            </div>
+          </form>
           <p style={{ textAlign: "center" }}>Or continue with:</p>
           <div className="app-between" />
           <div className="app-footer-text">
