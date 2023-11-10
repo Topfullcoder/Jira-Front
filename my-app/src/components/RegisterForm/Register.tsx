@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, FormEvent } from "react";
-import { Input, Modal, Button } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "./../../redux/actions/userActions";
+import { Input, Modal, Button, Flex } from "antd";
 import type { InputRef } from "antd";
 import Icon from "@ant-design/icons";
 import { JiraLogo, Atlassian } from "./../../pages/Login/Background/Menu";
@@ -7,17 +9,14 @@ import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/
 import "./registerform.css";
 import { Link } from "react-router-dom";
 import { UserData } from "../../redux/types";
-import {
-  selectRegistered,
-  selectError,
-  registerUser,
-} from "../../redux/reducers/userReducers";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { AppState } from "./../../redux/store";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
-  const dispatch = useAppDispatch();
-  const isRegister = useAppSelector(selectRegistered);
-  const error = useAppSelector(selectError);
+  const dispatch: ThunkDispatch<AppState, any, AnyAction> = useDispatch();
+  const error = useSelector((state: AppState) => state.user.error);
   const defaultUserData: UserData = {
     firstname: "",
     lastname: "",
@@ -48,7 +47,6 @@ const App: React.FC = () => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(error);
     dispatch(registerUser(userinfo));
   };
 
@@ -125,7 +123,7 @@ const App: React.FC = () => {
             <div className="app-between" />
             <div>
               <Button type="primary" htmlType="submit" block>
-                Sign Up
+                Continue
               </Button>
             </div>
           </form>

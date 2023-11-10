@@ -1,19 +1,24 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import userSlice from "./reducers/userReducers";
+import { createStore, applyMiddleware, combineReducers, compose } from "redux";
+import userReducer from "./reducers/userReducers";
+import thunk from "redux-thunk";
 
-export const store = configureStore({
-  reducer: {
-    user: userSlice,
-  },
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
+const rootReducer = combineReducers({
+  user: userReducer,
 });
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+export type AppState = ReturnType<typeof rootReducer>;
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 export default store;
