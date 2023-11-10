@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "./../../redux/actions/userActions";
 import { Input, Modal, Button } from "antd";
 import type { InputRef } from "antd";
 import Icon from "@ant-design/icons";
@@ -9,13 +7,17 @@ import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/
 import "./registerform.css";
 import { Link } from "react-router-dom";
 import { UserData } from "../../redux/types";
-import { Appstate } from "../../redux/store";
-
+import {
+  selectRegistered,
+  selectError,
+  registerUser,
+} from "../../redux/reducers/userReducers";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
-  const dispatch = useDispatch();
-  const isRegister = useSelector((state: Appstate) => state.user.isRegistering);
-  // const isRegister = useSelector((state) => state.user.isRegistering);
+  const dispatch = useAppDispatch();
+  const isRegister = useAppSelector(selectRegistered);
+  const error = useAppSelector(selectError);
   const defaultUserData: UserData = {
     firstname: "",
     lastname: "",
@@ -46,8 +48,7 @@ const App: React.FC = () => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(userinfo);
-    console.log(isRegister);
+    console.log(error);
     dispatch(registerUser(userinfo));
   };
 
@@ -124,7 +125,7 @@ const App: React.FC = () => {
             <div className="app-between" />
             <div>
               <Button type="primary" htmlType="submit" block>
-                Continue
+                Sign Up
               </Button>
             </div>
           </form>

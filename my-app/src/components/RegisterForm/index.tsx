@@ -55,7 +55,7 @@ const App: React.FC = () => {
           <div>
             <Flex vertical gap="small" style={{ width: "100%" }}>
               <Button type="primary" block>
-                Continue
+                Sign Up
               </Button>
             </Flex>
           </div>
