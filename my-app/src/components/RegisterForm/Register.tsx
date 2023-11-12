@@ -7,12 +7,11 @@ import Icon from "@ant-design/icons";
 import { JiraLogo, Atlassian } from "./../../pages/Login/Background/Menu";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
 import "./registerform.css";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { UserData } from "../../redux/types";
 import { AppState } from "./../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { useNavigate } from "react-router-dom";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +26,7 @@ const App: React.FC = () => {
     password: "",
   };
   const [userinfo, setUserinfo] = useState(defaultUserData);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -47,9 +47,14 @@ const App: React.FC = () => {
     setUserinfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(registerUser(userinfo));
+    const success = await dispatch(registerUser(userinfo));
+    if (success) {
+      navigate("/login");
+    } else {
+      redirect("/register1");
+    }
   };
 
   return (

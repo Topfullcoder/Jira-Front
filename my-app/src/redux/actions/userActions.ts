@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import axios from "axios"; // Assuming you're using axios for API calls
-import { redirect } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 const http = process.env.REACT_APP_SERVER_URL;
 
@@ -55,30 +55,23 @@ export const registerFailure = (error: string): RegisterFailureAction => ({
   payload: error,
 });
 
-let err = false;
 // Asynchronous thunk action creator
-export const registerUser = (
-  userData: UserData
-): ThunkAction<void, any, null, UserActionTypes> => {
-  return async (dispatch: Dispatch<UserActionTypes>) => {
+export const registerUser =
+  (userData: UserData) => async (dispatch: Dispatch) => {
     dispatch(registerRequest());
-
     try {
-      // Replace with your actual API endpoint
       const response = await axios.post(`${http}/api/v1/auth/signup`, userData);
-      dispatch(registerSuccess(response.data));
-      console.log("response.data", response.data);
-    } catch (error: any) {
-      err = true;
-      console.log("error.message", error.message);
-      dispatch(registerFailure(error.message));
-    } finally {
-      if (err === false) {
-        redirect("/");
-        console.log("Please help me.");
+      if (response.status === 200 || response.status === 201) {
+        dispatch(registerSuccess(response.data));
+        return true; // Return true on success
+      } else {
+        dispatch(registerFailure("Unexpected response status"));
+        return false; // Return false on failure
       }
-      console.log("err", err);
-      if (err) err = false;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || error.message || "An error occurred";
+      dispatch(registerFailure(errorMessage));
+      return false; // Return false on error
     }
   };
-};
