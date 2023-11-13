@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "./../../redux/actions/userActions";
-import { Input, Modal, Button, Flex } from "antd";
+import { Input, Modal, Button, Alert } from "antd";
 import type { InputRef } from "antd";
 import Icon from "@ant-design/icons";
 import { JiraLogo, Atlassian } from "./../../pages/Login/Background/Menu";
@@ -33,6 +33,14 @@ const App: React.FC = () => {
       inputRef.current.focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (error !== null) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
+  }, [error]);
 
   const LogoIcon = (props: Partial<CustomIconComponentProps>) => (
     <Icon component={JiraLogo} {...props} />
@@ -71,6 +79,15 @@ const App: React.FC = () => {
         }}
         closeIcon={null}
       >
+        {isError === true && (
+          <Alert
+            message="Input Error"
+            showIcon
+            description={error}
+            type="error"
+            closable
+          />
+        )}
         <div className="app-login-view">
           <div>
             <LogoIcon className="app-logo" />

@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import { AppState } from "../store";
-import { AnyAction } from "redux";
+import { AnyAction, Dispatch } from "redux";
 import axios from "axios";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
@@ -37,14 +37,9 @@ export type UserActionTypes =
 
 // Thunk action creator for login
 export const login =
-  (
-    credentials: LoginCredentials
-  ): ThunkAction<void, AppState, null, AnyAction> =>
-  async (dispatch) => {
+  (credentials: LoginCredentials) => async (dispatch: Dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
-
     try {
-      // Replace with your actual login API call
       const response = await fetch(`${http}/api/v1/auth/signin`, {
         method: "POST",
         headers: {
@@ -56,19 +51,22 @@ export const login =
 
       if (response.ok) {
         // Store the token in local storage
-        localStorage.setItem("usertoken", JSON.stringify(data.accessToken));
-        // console.log(data);
+        localStorage.setItem("user", JSON.stringify(data));
+        console.log(data);
         // Dispatch a success action
-        dispatch({ type: LOGIN_SUCCESS, payload: data.accessToken });
+        dispatch({ type: LOGIN_SUCCESS, payload: data });
+        return true;
       } else {
         // Dispatch an error action
         dispatch({ type: LOGIN_FAILURE, payload: data.message });
+        return false;
       }
     } catch (error: any) {
       dispatch({ type: LOGIN_FAILURE, payload: error.message });
+      return false;
     }
   };
 
 export const logout = (): void => {
-  localStorage.removeItem("userToken");
+  localStorage.removeItem("user");
 };

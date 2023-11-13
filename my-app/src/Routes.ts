@@ -10,7 +10,7 @@ const RegitserDefault = lazy(() => import("./pages/Login/RegisterDefault"));
 
 export const privateRoutes: IRoute[] = [
   {
-    path: "/",
+    path: "/main",
     element: Home,
     index: true,
   },

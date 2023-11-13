@@ -1,31 +1,38 @@
 import React, { useState, useEffect, useRef, FormEvent } from "react";
-import { Input, Modal, Button, Flex } from "antd";
+import { Input, Modal, Button, Flex, Alert } from "antd";
 import type { InputRef } from "antd";
 import Icon from "@ant-design/icons";
 import { JiraLogo, Atlassian } from "./../../pages/Login/Background/Menu";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
 import "./loginform.css";
-import { Link } from "react-router-dom";
-import { LoginCredentials } from "./../../redux/actions/authActions";
+import { Link, redirect, useNavigate } from "react-router-dom";
+import { LoginCredentials, login } from "./../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "./../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { login } from "../../redux/actions/authActions";
 
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
+  const navigate = useNavigate();
   const dispatch: ThunkDispatch<AppState, any, AnyAction> = useDispatch();
+  const error = useSelector((state: AppState) => state.auth.error);
   const defaultUserData: LoginCredentials = {
     username: "",
     password: "",
   };
   const [userinfo, setUserinfo] = useState(defaultUserData);
+  const [isError, setIsError] = useState(false);
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (error !== null) setIsError(true);
+    else setIsError(false);
+  }, [error]);
 
   const LogoIcon = (props: Partial<CustomIconComponentProps>) => (
     <Icon component={JiraLogo} {...props} />
@@ -40,10 +47,14 @@ const App: React.FC = () => {
     setUserinfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(userinfo);
-    dispatch(login(userinfo));
+    const success = await dispatch(login(userinfo));
+    if (success) {
+      navigate("/main");
+    } else {
+      redirect("/login");
+    }
   };
 
   return (
@@ -60,6 +71,15 @@ const App: React.FC = () => {
         }}
         closeIcon={null}
       >
+        {isError === true && (
+          <Alert
+            message="Input Error"
+            showIcon
+            description={error}
+            type="error"
+            closable
+          />
+        )}
         <div className="app-login-view">
           <div>
             <LogoIcon className="app-logo" />
@@ -69,7 +89,7 @@ const App: React.FC = () => {
             <div>
               <Input
                 ref={inputRef}
-                placeholder="Enter your First Name"
+                placeholder="Enter your User Id"
                 name="username"
                 value={userinfo.username}
                 onChange={handle}
