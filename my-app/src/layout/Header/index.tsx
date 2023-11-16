@@ -7,7 +7,8 @@ import Icon, {
   UserOutlined,
 } from "@ant-design/icons";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
-import { Menu, Button, MenuProps, Input, Avatar } from "antd";
+import { Menu, Button, MenuProps, Input, Avatar, Modal } from "antd";
+import CreateCard from "../../components/CreateProjectSample";
 import LOGO_IMG from "./../../assets/image/icon/Jira Software.svg";
 import "./header.css";
 
@@ -113,6 +114,8 @@ const items: MenuProps["items"] = [
 const App: React.FC = () => {
   const [current, setCurrent] = useState("Homepage");
   const [inputStyle, setInputStyle] = useState({ width: "150px" });
+  const [isCreate, setIsCreate] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleFocus = () => {
     setInputStyle({ width: "600px" });
@@ -141,6 +144,23 @@ const App: React.FC = () => {
     setCurrent(e.key);
   };
 
+  const showModal = () => {
+    setIsCreate(true);
+  };
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setIsCreate(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    setIsCreate(false);
+  };
+
   return (
     <div className="app-menu-bar">
       <div className="app-menu-bar-left">
@@ -165,9 +185,18 @@ const App: React.FC = () => {
             />
           </div>
           <div>
-            <Button type="primary" size="middle">
+            <Button type="primary" onClick={showModal} size="middle">
               Create
             </Button>
+            <Modal
+              title="Title"
+              open={isCreate}
+              onOk={handleOk}
+              confirmLoading={confirmLoading}
+              onCancel={handleCancel}
+            >
+              <CreateCard />
+            </Modal>
           </div>
         </div>
       </div>
