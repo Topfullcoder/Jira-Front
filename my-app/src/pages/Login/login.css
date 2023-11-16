@@ -1,0 +1,67 @@
+.login-background {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  z-index: 1;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.header-menu {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+
+.header-menu-line {
+  display: inline-block;
+  position: fixed;
+  top: 56px;
+  left: 0px;
+  height: 2px;
+  width: 100%;
+  background-color: rgb(223, 225, 230);
+}
+
+.header-menu-actually {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+}
+
+.slider-bar {
+  position: fixed;
+  top: 56px;
+  left: 0px;
+  width: 240px;
+}
+
+.breadcrumb-bar {
+  position: fixed;
+  top: 56px;
+  left: 240px;
+}
+
+.content-actually {
+  position: fixed;
+  top: 56px;
+  right: 0px;
+}
+
+.center-content {
+  position: fixed;
+  top: 144px;
+  left: 264px;
+  right: 400px;
+  height: 80%;
+}
+
+.content-right {
+  position: fixed;
+  top: 144px;
+  right: 0px;
+  padding: 0px 24px 100%;
+  background: rgb(255, 255, 255);
+}
