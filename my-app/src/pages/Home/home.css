@@ -2,3 +2,9 @@
   background-color: #fff !important;
   color: #1d7afc !important;
 }
+
+.app-content {
+  padding: 14;
+  margin: 0;
+  height: 550px;
+}

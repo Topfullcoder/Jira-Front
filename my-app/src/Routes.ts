@@ -7,6 +7,7 @@ const Login = lazy(() => import("./pages/Login/Login"));
 const LoginDefault = lazy(() => import("./pages/Login/LoginDefault"));
 const Register = lazy(() => import("./pages/Login/Register"));
 const RegitserDefault = lazy(() => import("./pages/Login/RegisterDefault"));
+const ProjectAdd = lazy(() => import("./components/CreateProjectSample"));
 
 export const privateRoutes: IRoute[] = [
   {

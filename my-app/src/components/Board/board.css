@@ -1,0 +1,22 @@
+.app-left-header {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+}
+
+.app-search {
+  display: flex;
+}
+
+.app-top-between {
+  height: 20px;
+}
+
+.app-board {
+  height: 470px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: scroll;
+}

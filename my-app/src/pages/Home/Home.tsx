@@ -1,21 +1,13 @@
-import React, { useState } from "react";
-import Icon, { UserOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import Icon, { UserOutlined, HomeOutlined } from "@ant-design/icons";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, Timeline, theme } from "antd";
 import "./home.css";
+import ProBoard from "./../../components/Board";
+import { Link } from "react-router-dom";
 
 const { Content, Sider } = Layout;
-
-const AppStroe = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
-    <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M4 5.01C4 4.451 4.443 4 5.01 4h1.98C7.549 4 8 4.443 8 5.01v1.98C8 7.549 7.557 8 6.99 8H5.01C4.451 8 4 7.557 4 6.99V5.01zm0 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C8 13.549 7.557 14 6.99 14H5.01C4.451 14 4 13.557 4 12.99v-1.98zm6-6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C14 7.549 13.557 8 12.99 8h-1.98C10.451 8 10 7.557 10 6.99V5.01zm0 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98zm6-6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C20 7.549 19.557 8 18.99 8h-1.98C16.451 8 16 7.557 16 6.99V5.01zm0 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98zm-12 6c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98C8 19.549 7.557 20 6.99 20H5.01C4.451 20 4 19.557 4 18.99v-1.98zm6 0c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98zm6 0c0-.558.443-1.01 1.01-1.01h1.98c.558 0 1.01.443 1.01 1.01v1.98c0 .558-.443 1.01-1.01 1.01h-1.98c-.558 0-1.01-.443-1.01-1.01v-1.98z"
-    ></path>
-  </svg>
-);
 
 const ArrowDown = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
@@ -185,11 +177,11 @@ const item1: MenuProps["items"] = [
 ].map((value, idx) => {
   const key = idx;
   return {
-    key: `sub_1_${key}`,
+    key: `sub_${key}_${key}`,
     icon: React.createElement(value.icon),
     label: `${value.label}`,
     children: ChildArray[key].map((_, idx) => {
-      const subkey = idx * 3 + idx + 1;
+      const subkey = idx * 3 + key + 1;
       return {
         key: subkey,
         label: _.label,
@@ -222,6 +214,25 @@ const item2: MenuProps["items"] = [
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [userData, setUserData] = useState({ username: "" });
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("user");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
+  const breadcrumbItems = [
+    {
+      title: <Link to={"/"}>Home</Link>,
+    },
+    {
+      title: "Project",
+    },
+    userData && {
+      title: userData.username,
+    },
+  ];
 
   const {
     token: { colorBgContainer },
@@ -252,20 +263,14 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout style={{ padding: "0 24px 24px" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
+        <Breadcrumb style={{ margin: "16px 0" }} items={breadcrumbItems} />
         <Content
+          className="app-content"
           style={{
-            padding: 24,
-            margin: 0,
-            minHeight: 550,
             background: colorBgContainer,
           }}
         >
-          Content
+          <ProBoard />
         </Content>
       </Layout>
     </Layout>
