@@ -123,7 +123,7 @@ const CustomCard: React.FC<{ task: Task }> = ({ task }) => {
 
 const App: React.FC<AppProps> = ({ title, tasks }) => {
   const [cardtitle, setCardtitle] = useState(title);
-  const [taskList, setTaskList] = useState<Task[]>();
+  // const [taskList, setTaskList] = useState<Task[]>();
 
   const handle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -163,30 +163,30 @@ const App: React.FC<AppProps> = ({ title, tasks }) => {
     evt.dataTransfer.dropEffect = "move";
   };
 
-  const onDrop = (
-    evt: React.DragEvent<HTMLDivElement>,
-    value: boolean,
-    status: string
-  ) => {
-    evt.preventDefault();
-    evt.currentTarget.classList.remove("dragged-over");
-    let data = evt.dataTransfer.getData("text/plain");
-    let updated = taskList.map((task, idx) => {
-      if (task.id.toString() === data.toString()) {
-        task.status = status;
-      }
-      return task;
-    });
-    setTaskList(updated);
-  };
+  // const onDrop = (
+  //   evt: React.DragEvent<HTMLDivElement>,
+  //   value: boolean,
+  //   status: string
+  // ) => {
+  //   evt.preventDefault();
+  //   evt.currentTarget.classList.remove("dragged-over");
+  //   let data = evt.dataTransfer.getData("text/plain");
+  //   let updated = taskList.map((task, idx) => {
+  //     if (task.id.toString() === data.toString()) {
+  //       task.status = status;
+  //     }
+  //     return task;
+  //   });
+  //   setTaskList(updated);
+  // };
 
-  useEffect(() => {
-    console.log("Updated Task List:", taskList);
-  }, [taskList]);
+  // useEffect(() => {
+  //   console.log("Updated Task List:", taskList);
+  // }, [taskList]);
 
-  const filterTasksByStatus = (status: string) => {
-    return taskList.filter((task) => task.status === status);
-  };
+  // const filterTasksByStatus = (status: string) => {
+  //   return taskList.filter((task) => task.status === status);
+  // };
 
   return (
     <Card
@@ -212,18 +212,8 @@ const App: React.FC<AppProps> = ({ title, tasks }) => {
       onDragEnter={onDragEnter}
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
-      onDrop={(e) => onDrop(e, false, "New Order")}
-    >
-      {filterTasksByStatus("New Order").map((task) => (
-        <CustomCard
-          id={task.id.toString()}
-          draggable
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-          task={task}
-        />
-      ))}
-    </Card>
+      // onDrop={(e) => onDrop(e, false, "New Order")}
+    ></Card>
   );
 };
 

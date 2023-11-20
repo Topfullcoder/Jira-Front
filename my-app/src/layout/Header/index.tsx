@@ -157,7 +157,7 @@ const App: React.FC = () => {
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
+    // console.log("Clicked cancel button");
     setIsCreate(false);
   };
 
@@ -188,13 +188,7 @@ const App: React.FC = () => {
             <Button type="primary" onClick={showModal} size="middle">
               Create
             </Button>
-            <Modal
-              title="Title"
-              open={isCreate}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}
-            >
+            <Modal open={isCreate} onCancel={handleCancel} footer={null}>
               <CreateCard />
             </Modal>
           </div>

@@ -172,8 +172,8 @@ const SprintBoard = () => {
       <Content style={{ padding: "0 50px" }}>
         <div className="app-top-between" />
         <div className="app-board">
-          <TicCard title="TODO" tasks={TodoList} />
-          <TicCard title="IN PROGRESS" tasks={ProgressList} />
+          {/* <TicCard title="TODO" tasks={TodoList} /> */}
+          {/* <TicCard title="IN PROGRESS" tasks={ProgressList} /> */}
         </div>
       </Content>
     </>
