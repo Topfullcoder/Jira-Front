@@ -13,10 +13,8 @@
 }
 
 .app-board {
-  height: 470px;
+  height: 74vh;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: -webkit-inline-box;
   overflow: scroll;
 }

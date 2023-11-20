@@ -1,46 +1,166 @@
-import React, { useState, useEffect } from "react";
-import { Card, Input } from "antd";
-import "./ticketbar.css";
+import type { DragEndEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  SortableContext,
+  arrayMove,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import React, { useState } from "react";
+import { Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
 
-const gridStyle: React.CSSProperties = {
-  width: "90%",
-  textAlign: "center",
-};
-
-interface AppProps {
-  title: string;
+interface DataType {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
-const App: React.FC<AppProps> = ({ title }) => {
-  const [cardtitle, setCardtitle] = useState(title);
-  const handle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setCardtitle(value);
+const columns: ColumnsType<DataType> = [
+  {
+    title: "Name",
+    dataIndex: "name",
+  },
+  {
+    title: "Age",
+    dataIndex: "age",
+  },
+  {
+    title: "Address",
+    dataIndex: "address",
+  },
+];
+
+interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  "data-row-key": string;
+}
+
+const Row = (props: RowProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: props["data-row-key"],
+  });
+
+  const style: React.CSSProperties = {
+    ...props.style,
+    transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
+    transition,
+    cursor: "move",
+    ...(isDragging ? { position: "relative", zIndex: 9999 } : {}),
   };
+
   return (
-    <Card
-      className="app-card-header"
-      title={
-        <Input
-          placeholder="Borderless"
-          bordered={false}
-          value={cardtitle}
-          onChange={handle}
-        />
-      }
-      type="inner"
-      style={{ width: "20%" }}
+    <tr
+      {...props}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    />
+  );
+};
+
+const App: React.FC = () => {
+  const [dataSource, setDataSource] = useState([
+    {
+      key: "1",
+      name: "John Brown",
+      age: 32,
+      address: "Long text Long text Long text",
+    },
+    {
+      key: "2",
+      name: "Jim Green",
+      age: 42,
+      address: "London No. 1 Lake Park",
+    },
+    {
+      key: "3",
+      name: "Joe Black",
+      age: 32,
+      address: "Sidney No. 1 Lake Park",
+    },
+    {
+      key: "4",
+      name: "Joe Black",
+      age: 32,
+      address: "Sidney No. 1 Lake Park",
+    },
+    {
+      key: "5",
+      name: "Joe Black",
+      age: 32,
+      address: "Sidney No. 1 Lake Park",
+    },
+    {
+      key: "6",
+      name: "Joe Black",
+      age: 32,
+      address: "Sidney No. 1 Lake Park",
+    },
+    {
+      key: "7",
+      name: "Joe Black",
+      age: 32,
+      address: "Sidney No. 1 Lake Park",
+    },
+  ]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 1,
+      },
+    })
+  );
+
+  const onDragEnd = ({ active, over }: DragEndEvent) => {
+    if (active.id !== over?.id) {
+      setDataSource((prev) => {
+        const activeIndex = prev.findIndex((i) => i.key === active.id);
+        const overIndex = prev.findIndex((i) => i.key === over?.id);
+        return arrayMove(prev, activeIndex, overIndex);
+      });
+    }
+  };
+
+  return (
+    <DndContext
+      sensors={sensors}
+      modifiers={[restrictToVerticalAxis]}
+      onDragEnd={onDragEnd}
     >
-      <div className="card-children">
-        <Card.Grid style={gridStyle}>1</Card.Grid>
-        <Card.Grid style={gridStyle}>2</Card.Grid>
-        <Card.Grid style={gridStyle}>3</Card.Grid>
-        <Card.Grid style={gridStyle}>4</Card.Grid>
-        <Card.Grid style={gridStyle}>5</Card.Grid>
-        <Card.Grid style={gridStyle}>6</Card.Grid>
-        <Card.Grid style={gridStyle}>7</Card.Grid>
-      </div>
-    </Card>
+      <SortableContext
+        items={dataSource.map((i) => i.key)}
+        strategy={verticalListSortingStrategy}
+      >
+        <Table
+          components={{
+            body: {
+              row: Row,
+            },
+          }}
+          rowKey="key"
+          columns={columns}
+          dataSource={dataSource}
+          scroll={{ x: 300, y: 500 }}
+        />
+      </SortableContext>
+    </DndContext>
   );
 };
 
