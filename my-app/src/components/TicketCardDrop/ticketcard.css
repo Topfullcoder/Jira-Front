@@ -1,0 +1,11 @@
+.card-children {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .ant-card-head {
+  display: contents;
+  position: fixed;
+  z-index: 4;
+} */
