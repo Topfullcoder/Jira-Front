@@ -30,7 +30,7 @@ export const publicRoutes: IRoute[] = [
   },
   {
     path: "/login",
-    element: LoginDefault,
+    element: Home,
     index: false,
   },
   {

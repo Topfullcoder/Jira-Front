@@ -22,6 +22,7 @@ import {
   AntDesignOutlined,
 } from "@ant-design/icons";
 import Ticket from "./../Ticketbar";
+import TicCard from "./../TicketCard";
 import "./board.css";
 const { Content } = Layout;
 
@@ -97,12 +98,13 @@ const SprintBoard = () => {
       <Content style={{ padding: "0 50px" }}>
         <div className="app-top-between" />
         <div className="app-board">
-          <Ticket title="To Do" />
-          <Ticket title="In Progress" />
-          <Ticket title="Test" />
-          <Ticket title="Uptest" />
-          <Ticket title="In Test" />
-          <Ticket title="Done" />
+          <TicCard title="TODO" />
+          <TicCard title="IN PROGRESS" />
+          <TicCard title="TEST" />
+          <TicCard title="DONE" />
+          <TicCard title="DONE" />
+          <TicCard title="DONE" />
+          <TicCard title="DONE" />
         </div>
       </Content>
     </>
