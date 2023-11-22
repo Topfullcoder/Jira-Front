@@ -8,6 +8,7 @@ import Icon, {
 } from "@ant-design/icons";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
 import { Menu, Button, MenuProps, Input, Avatar, Modal } from "antd";
+import { userList } from "./../../redux/actions/apiActions";
 import CreateCard from "../../components/CreateProjectSample";
 import LOGO_IMG from "./../../assets/image/icon/Jira Software.svg";
 import "./header.css";
@@ -140,24 +141,16 @@ const App: React.FC = () => {
   );
 
   const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click", e);
     setCurrent(e.key);
   };
 
-  const showModal = () => {
+  const showModal = async () => {
+    const response = await userList();
+    console.log("response", response, "\n");
     setIsCreate(true);
   };
 
-  const handleOk = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setIsCreate(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
-
   const handleCancel = () => {
-    // console.log("Clicked cancel button");
     setIsCreate(false);
   };
 

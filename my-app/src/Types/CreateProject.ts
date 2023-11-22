@@ -1,6 +1,6 @@
 import { number } from "yargs";
 
-export default interface CreatePro {
+export interface CreatePro {
   title: string;
   description: string;
   acceptanceCriteria: string;

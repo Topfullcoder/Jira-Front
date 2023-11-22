@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Select, Checkbox, Typography } from "antd";
-import CreatePro from "./../../Types/CreateProject";
+import { CreatePro } from "./../../Types/CreateProject";
 import "./CreateProject.css";
 
 const { Title } = Typography;
