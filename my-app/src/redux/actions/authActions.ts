@@ -52,7 +52,7 @@ export const login =
       if (response.ok) {
         // Store the token in local storage
         localStorage.setItem("user", JSON.stringify(data));
-        console.log(data);
+        // console.log(data);
         // Dispatch a success action
         dispatch({ type: LOGIN_SUCCESS, payload: data });
         return true;

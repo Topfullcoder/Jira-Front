@@ -1,44 +1,55 @@
-import { Suspense, useEffect, useState } from "react";
-import { Routes, Route, useNavigate, redirect } from "react-router-dom";
+import { Suspense, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { publicRoutes, privateRoutes } from "./Routes";
 import { Layout } from "antd";
 import { jwtDecode } from "jwt-decode";
 import Header from "./layout/Header";
 import "./App.css";
 
-const Authorization = () => {
-  const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+interface User {
+  accessToken: string;
+}
 
-  useEffect(() => {
-    if (user === null) {
+const checkAuthorization = (
+  user: User | null,
+  navigate: (path: string) => void
+): boolean => {
+  if (!user) {
+    navigate("/login");
+    return false;
+  }
+
+  const { accessToken } = user;
+
+  if (accessToken) {
+    const decoded = jwtDecode(accessToken);
+    const currentTimestamp = Date.now() / 1000;
+    if (decoded.exp !== undefined && decoded.exp < currentTimestamp) {
+      localStorage.removeItem("user");
       navigate("/login");
-    } else {
-      const token = user?.accessToken;
-      if (token) {
-        const decoded = jwtDecode(token);
-        const currentTimestamp = Date.now() / 1000;
-        if (decoded.exp !== undefined && decoded.exp < currentTimestamp) {
-          localStorage.removeItem("user");
-          navigate("/login");
-        }
-      } else {
-        navigate("/login");
-      }
+      return false;
     }
-  }, [user]);
+  } else {
+    navigate("/login");
+    return false;
+  }
 
   return true;
 };
 
 function App() {
+  const navigate = useNavigate();
+  const storedUser: string | null = localStorage.getItem("user");
+  const user: User | null = storedUser ? JSON.parse(storedUser) : null;
+  const isAuthorized: boolean = checkAuthorization(user, navigate);
+
   return (
     <div className="App">
       <Layout>
         <Suspense fallback={<div>Loading...</div>}>
-          {Authorization() && <Header />}
+          {isAuthorized && <Header />}
           <Routes>
-            {Authorization() &&
+            {isAuthorized &&
               privateRoutes?.map((route, idx) => (
                 <Route
                   key={idx}

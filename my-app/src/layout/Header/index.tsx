@@ -12,6 +12,7 @@ import { userList } from "./../../redux/actions/apiActions";
 import CreateCard from "../../components/CreateProjectSample";
 import LOGO_IMG from "./../../assets/image/icon/Jira Software.svg";
 import "./header.css";
+import { response } from "express";
 
 const items: MenuProps["items"] = [
   {
@@ -145,8 +146,12 @@ const App: React.FC = () => {
   };
 
   const showModal = async () => {
-    const response = await userList();
-    console.log("response", response, "\n");
+    const response: any[] = await userList();
+    const userSet = response.map((user, idx) => ({
+      id: user.id,
+      username: user.username,
+    }));
+    localStorage.setItem("userlist", JSON.stringify(userSet));
     setIsCreate(true);
   };
 

@@ -12,7 +12,7 @@ export const register = (username: string, email: string, password: string) => {
 
 export const login = (username: string, password: string) => {
   return axios
-    .post(serverUrl + "signup", {
+    .post(serverUrl + "signin", {
       username,
       password,
     })
