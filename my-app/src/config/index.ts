@@ -5,7 +5,6 @@ export const getUserAccessToken = (): string | null => {
   const userJSON = localStorage.getItem("user");
   const user = userJSON ? JSON.parse(userJSON) : null;
   const accessToken = user?.accessToken || null;
-  // const navigate = useNavigate();
 
   if (accessToken !== null) {
     const decodedToken = jwtDecode<{ exp: number }>(accessToken);
@@ -18,4 +17,10 @@ export const getUserAccessToken = (): string | null => {
     }
   }
   return accessToken;
+};
+
+export const getUserList = () => {
+  const userlistJSON = localStorage.getItem("userlist");
+  const userlist = userlistJSON ? JSON.parse(userlistJSON) : null;
+  return userlist;
 };

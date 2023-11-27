@@ -32,7 +32,11 @@ userListArr.forEach((user: { id: number; username: string }) => {
   }
 });
 
-const CreateIssueForm: React.FC = () => {
+interface CreateCardProps {
+  onCreate: () => void;
+}
+
+const CreateIssueForm: React.FC<CreateCardProps> = ({ onCreate }) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values: any) => {
@@ -59,7 +63,7 @@ const CreateIssueForm: React.FC = () => {
     };
 
     const response = await CreateProject(updatedValues);
-    console.log(response);
+    if (response) onCreate();
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -121,10 +125,10 @@ const CreateIssueForm: React.FC = () => {
           ]}
         >
           <Select placeholder="Select stage type">
-            <Option value={0}>To Do</Option>
-            <Option value={1}>In Progress</Option>
-            <Option value={2}>Test</Option>
-            <Option value={3}>Done</Option>
+            <Option value={1}>To Do</Option>
+            <Option value={2}>In Progress</Option>
+            <Option value={3}>Test</Option>
+            <Option value={4}>Done</Option>
           </Select>
         </Form.Item>
 

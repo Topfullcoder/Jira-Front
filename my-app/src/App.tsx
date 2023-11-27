@@ -15,7 +15,6 @@ const checkAuthorization = (
   navigate: (path: string) => void
 ): boolean => {
   if (!user) {
-    navigate("/login");
     return false;
   }
 
@@ -26,11 +25,9 @@ const checkAuthorization = (
     const currentTimestamp = Date.now() / 1000;
     if (decoded.exp !== undefined && decoded.exp < currentTimestamp) {
       localStorage.removeItem("user");
-      navigate("/login");
       return false;
     }
   } else {
-    navigate("/login");
     return false;
   }
 
@@ -41,15 +38,22 @@ function App() {
   const navigate = useNavigate();
   const storedUser: string | null = localStorage.getItem("user");
   const user: User | null = storedUser ? JSON.parse(storedUser) : null;
-  const isAuthorized: boolean = checkAuthorization(user, navigate);
+
+  useEffect(() => {
+    const isAuthorized: boolean = checkAuthorization(user, navigate);
+
+    if (!isAuthorized) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <div className="App">
       <Layout>
         <Suspense fallback={<div>Loading...</div>}>
-          {isAuthorized && <Header />}
+          {user && <Header />}
           <Routes>
-            {isAuthorized &&
+            {user &&
               privateRoutes?.map((route, idx) => (
                 <Route
                   key={idx}

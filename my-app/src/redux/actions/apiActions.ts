@@ -25,20 +25,6 @@ export const userList = async () => {
   }
 };
 
-const initialProjectInfo: CreatePro = {
-  title: "updated Ticket Title 21",
-  description: "This is a sample description for the ticket 21.",
-  acceptanceCriteria: "20:  Criteria details here",
-  storyPoint: 5,
-  stages: [{ id: 1 }],
-  assignees: [{ id: 1 }],
-  reporters: [{ id: 1 }],
-  sprint: null,
-  priority: "Medium",
-  type: "Epic",
-  parent: null,
-};
-
 export const CreateProject = async (project: CreatePro) => {
   try {
     const response = await http.post("/api/v1/tickets/add/1", project);
@@ -46,5 +32,30 @@ export const CreateProject = async (project: CreatePro) => {
   } catch (err: any) {
     console.log("Err", err);
     return false;
+  }
+};
+
+interface Stage {
+  id: number;
+  stage: string;
+}
+
+export const getStageList = async () => {
+  try {
+    const response = await http.get("api/v1/stages/list");
+    const sortedData = response.data.sort((a: Stage, b: Stage) => a.id - b.id);
+    return sortedData;
+  } catch (err: any) {
+    console.log("Err", err);
+  }
+};
+
+export const getTicketList = async () => {
+  try {
+    const response = await http.get("api/v1/tickets/list");
+    console.log(response);
+    return response;
+  } catch (err: any) {
+    console.log("Err", err);
   }
 };

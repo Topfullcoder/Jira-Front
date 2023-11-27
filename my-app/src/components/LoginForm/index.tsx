@@ -19,6 +19,7 @@ const App: React.FC = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    localStorage.removeItem("user");
   }, []);
 
   const LogoIcon = (props: Partial<CustomIconComponentProps>) => (

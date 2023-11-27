@@ -13,7 +13,7 @@
 }
 
 .app-board {
-  height: 74vh;
+  height: 65vh;
   width: 100%;
   display: -webkit-inline-box;
   overflow: scroll;

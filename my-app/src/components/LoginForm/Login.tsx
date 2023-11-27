@@ -27,6 +27,7 @@ const App: React.FC = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    localStorage.removeItem("user");
   }, []);
 
   useEffect(() => {
@@ -119,7 +120,7 @@ const App: React.FC = () => {
           <p style={{ textAlign: "center" }}>Or continue with:</p>
           <div className="app-between" />
           <div className="app-footer-text">
-            <Link to="/">I already have another mail.</Link>
+            <Link to="/">I already have an other mail.</Link>
             <p className="app-square">•</p>
             <Link to="/register">Create an account</Link>
           </div>

@@ -35,7 +35,6 @@ export type UserActionTypes =
   | LoginSuccessAction
   | LoginFailureAction;
 
-// Thunk action creator for login
 export const login =
   (credentials: LoginCredentials) => async (dispatch: Dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
@@ -50,10 +49,7 @@ export const login =
       const data = await response.json();
 
       if (response.ok) {
-        // Store the token in local storage
         localStorage.setItem("user", JSON.stringify(data));
-        // console.log(data);
-        // Dispatch a success action
         dispatch({ type: LOGIN_SUCCESS, payload: data });
         return true;
       } else {

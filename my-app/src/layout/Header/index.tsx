@@ -12,7 +12,6 @@ import { userList } from "./../../redux/actions/apiActions";
 import CreateCard from "../../components/CreateProjectSample";
 import LOGO_IMG from "./../../assets/image/icon/Jira Software.svg";
 import "./header.css";
-import { response } from "express";
 
 const items: MenuProps["items"] = [
   {
@@ -187,7 +186,7 @@ const App: React.FC = () => {
               Create
             </Button>
             <Modal open={isCreate} onCancel={handleCancel} footer={null}>
-              <CreateCard />
+              <CreateCard onCreate={handleCancel} />
             </Modal>
           </div>
         </div>
