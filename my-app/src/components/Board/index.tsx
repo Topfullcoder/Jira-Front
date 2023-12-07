@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
+import styled from "@xstyled/styled-components";
+import {
+  DragDropContext,
+  Droppable,
+  DropResult,
+  DragStart,
+  DragUpdate,
+} from "react-beautiful-dnd";
 import { Layout, Input, Typography, Avatar, Tooltip } from "antd";
 import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
 import TicCard from "./../TicketCard";
-import TicCardDrop from "./../TicketCardDrop";
-import { Task, Tasks } from "./../../Types/Task";
-import { TaskList, ArrColor } from "../../Data";
+import { Task } from "./../../Types/Task";
+import { ArrColor } from "../../Data";
 import { getUserList } from "../../config";
 import { getStageList, getTicketList } from "./../../redux/actions/apiActions";
-import Column from "../Column";
 import "./board.css";
 
 const { Content } = Layout;
+
+const Container = styled.div`
+  background-color: #fff;
+  min-height: 72vh;
+  min-width: 100vw;
+  display: inline-flex;
+`;
 
 interface User {
   id: number;
@@ -23,43 +35,19 @@ interface Stage {
   stage: string;
 }
 
-const SprintBoard = () => {
-  let initialState = [
-    {
-      groupName: "Todo",
-      tasks: [
-        { id: "1", title: "Test-1" },
-        { id: "2", title: "Test-2" },
-      ],
-    },
-    {
-      groupName: "Progress",
-      tasks: [
-        { id: "3", title: "Test-3" },
-        { id: "4", title: "Test-4" },
-      ],
-    },
-    {
-      groupName: "Test",
-      tasks: [
-        { id: "3", title: "Test-5" },
-        { id: "4", title: "Test-6" },
-      ],
-    },
-    {
-      groupName: "Done",
-      tasks: [
-        { id: "3", title: "Test-7" },
-        { id: "4", title: "Test-8" },
-      ],
-    },
-  ];
+interface List {
+  id: number;
+  title: string;
+  taskList: Task[];
+}
 
+const SprintBoard = () => {
   const [searchPlaceholder, setSearchPlaceholder] = useState("");
   const [searchStyle, setSearchStyle] = useState({ width: "100px" });
   const [userlist, setUserlist] = useState<User[]>([]);
   const [stagelist, setStagelist] = useState<Stage[]>([]);
-  const [taskList, setTasks] = useState(initialState);
+  const [taskList, setTasks] = useState<Task[]>([]);
+  const [boardList, setBoardList] = useState<List[]>([]);
 
   useEffect(() => {
     setUserlist(getUserList());
@@ -67,14 +55,35 @@ const SprintBoard = () => {
       let reslist, ticketlist;
       try {
         reslist = await getStageList();
-        ticketlist = await getTicketList();
+        const ticketlistResponse = await getTicketList();
+
+        if (ticketlistResponse !== undefined) {
+          ticketlist = ticketlistResponse.data;
+          setTasks(ticketlist);
+        } else {
+          console.log("getTicketList() returned undefined");
+        }
         setStagelist(reslist);
       } catch (err) {
         console.log("Error", err);
       }
+      init(reslist, ticketlist);
     };
     fetchData();
   }, []);
+
+  function init(stages: Stage[], tasks: Task[]) {
+    let tp_list: List[];
+    tp_list = stages.map((stage, idx) => {
+      const tp_tasks = tasks.filter((task) => task.stages[0].id === stage.id);
+      return {
+        id: stage.id,
+        title: stage.stage,
+        taskList: tp_tasks,
+      };
+    });
+    setBoardList(tp_list);
+  }
 
   const handleFocus = () => {
     setSearchStyle({ width: "150px" });
@@ -86,46 +95,66 @@ const SprintBoard = () => {
     setSearchPlaceholder("");
   };
 
-  function onDragEnd(result: any) {
-    const { draggableId, source, destination } = result;
-
-    if (!destination) {
-      return; // If the item was dropped outside of any droppable, do nothing
-    }
-
-    const sourceGroupIndex = taskList.findIndex(
-      (column) => column.groupName === source.droppableId
-    );
-    const destinationGroupIndex = taskList.findIndex(
-      (column) => column.groupName === destination.droppableId
-    );
-
-    const sourceGroup = taskList[sourceGroupIndex];
-    const destinationGroup = taskList[destinationGroupIndex];
-
-    const movingTask = sourceGroup.tasks.find((t) => t.id === draggableId);
-
-    if (!movingTask) {
-      return; // If movingTask is undefined, do nothing
-    }
-    const newSourceGroupTasks = [...sourceGroup.tasks];
-    newSourceGroupTasks.splice(source.index, 1);
-
-    const newDestinationGroupTasks = [...destinationGroup.tasks];
-    newDestinationGroupTasks.splice(destination.index, 0, movingTask);
-
-    const newTaskList = [...taskList];
-    newTaskList[sourceGroupIndex] = {
-      ...sourceGroup,
-      tasks: newSourceGroupTasks,
-    };
-    newTaskList[destinationGroupIndex] = {
-      ...destinationGroup,
-      tasks: newDestinationGroupTasks,
-    };
-
-    setTasks(newTaskList);
+  function onDragStart(result: DragStart) {
+    // console.log("onDragStart", result);
   }
+
+  function onDragUpdate(result: DragUpdate) {
+    // console.log("onDragUpdate", result);
+  }
+
+  function onDragEnd(result: DropResult) {
+    const { destination, source, type } = result;
+    if (
+      !destination ||
+      (destination.droppableId === source.droppableId &&
+        destination.index === source.index)
+    ) {
+      return;
+    }
+
+    const sourceIndex = parseInt(
+      source.droppableId.match(/\d+/)?.[0] || "0",
+      10
+    );
+    const destinationIndex = parseInt(
+      destination.droppableId.match(/\d+/)?.[0] || "0",
+      10
+    );
+
+    setBoardList((prevBoardList) => {
+      const newBoardList = Array.from(prevBoardList); // Create a new array
+      if (type === "task") {
+        const sourceList = { ...newBoardList[sourceIndex] }; // Create a new object
+        const [removedTask] = sourceList.taskList.splice(source.index, 1);
+        if (sourceIndex === destinationIndex) {
+          // Moving within the same list
+          sourceList.taskList.splice(destination.index, 0, removedTask);
+          newBoardList[sourceIndex] = sourceList;
+        } else {
+          // Moving to a different list
+          const destinationList = { ...newBoardList[destinationIndex] }; // Create a new object
+          destinationList.taskList.splice(destination.index, 0, removedTask);
+          newBoardList[sourceIndex] = sourceList;
+          newBoardList[destinationIndex] = destinationList;
+        }
+      } else if (type === "list") {
+        const [removedList] = newBoardList.splice(source.index, 1);
+        newBoardList.splice(destination.index, 0, removedList);
+      }
+      return newBoardList; // Return the new state
+    });
+  }
+
+  const listBlocks = boardList.map((list, idx) => (
+    <TicCard
+      key={`list-${idx}`}
+      draggableId={`list-${idx.toString()}`}
+      index={idx}
+      title={list.title}
+      tasks={list.taskList}
+    />
+  ));
 
   return (
     <>
@@ -159,34 +188,24 @@ const SprintBoard = () => {
       </div>
       <Content style={{ padding: "0 50px" }}>
         <div className="app-top-between" />
-        <div className="app-board">
-          <DragDropContext onDragEnd={onDragEnd}>
-            <div className="wrapper">
-              <Column
-                className="column"
-                droppableId="Todo"
-                list={taskList[0].tasks}
-                type="TASK"
-              />
-              <Column
-                className="column"
-                droppableId="Progress"
-                list={taskList[1].tasks}
-                type="TASK"
-              />
-              <Column
-                className="column"
-                droppableId="Test"
-                list={taskList[2].tasks}
-                type="TASK"
-              />
-              <Column
-                className="column"
-                droppableId="Done"
-                list={taskList[3].tasks}
-                type="TASK"
-              />
-            </div>
+        <div className="main_content">
+          <DragDropContext
+            onDragStart={onDragStart}
+            onDragUpdate={onDragUpdate}
+            onDragEnd={onDragEnd}
+          >
+            <Droppable
+              droppableId="all-lists"
+              type="list"
+              direction="horizontal"
+            >
+              {(provided, snapshot) => (
+                <Container ref={provided.innerRef} {...provided.droppableProps}>
+                  {listBlocks}
+                  {provided.placeholder}
+                </Container>
+              )}
+            </Droppable>
           </DragDropContext>
         </div>
       </Content>

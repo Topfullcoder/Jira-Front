@@ -54,6 +54,9 @@
     ]
   },
   "devDependencies": {
-    "@types/react-beautiful-dnd": "^13.1.7"
+    "@types/react-beautiful-dnd": "^13.1.7",
+    "@types/styled-components": "^5.1.32",
+    "@xstyled/styled-components": "^3.8.0",
+    "@xstyled/system": "^3.8.0"
   }
 }

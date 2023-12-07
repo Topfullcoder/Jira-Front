@@ -1,11 +1,240 @@
-.card-children {
+/* .card-children {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
 /* .ant-card-head {
   display: contents;
   position: fixed;
   z-index: 4;
 } */
+/* .task {
+  min-width: 300px;
+  height: 120px;
+  min-height: 120px;
+  background-color: #ffffffe6;
+  border: 1px #ffffff solid;
+  border-radius: 15px;
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.task:hover {
+  cursor: pointer;
+}
+
+.t_head {
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.t_priority {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  width: 100px;
+  padding-left: 10px;
+}
+.t_done {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  background-color: #8ad8a8;
+  width: 60px;
+  border: 1px #8ad8a8 solid;
+  border-radius: 30px;
+  text-align: center;
+  display: none;
+}
+
+.t_priority.Low {
+  background-color: rgb(108, 137, 172);
+}
+.t_priority.Normal {
+  background-color: rgb(127, 175, 151);
+}
+.t_priority.Mid {
+  background-color: rgb(236, 167, 110);
+}
+.t_priority.High {
+  background-color: rgb(226, 110, 110);
+}
+.t_priority.Critical {
+  background-color: rgb(193, 87, 197);
+}
+.t_content {
+  width: 90%;
+  height: 40%;
+  margin-left: 5%;
+  margin-right: 5%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.t_botton {
+  height: 32px;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.userIconWraper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.header {
+  border: 1px #fff solid;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  background-color: rgb(255, 255, 255);
+  background-size: contain;
+}
+.progressing {
+  margin-left: 2%;
+  width: 90px;
+  height: 30px;
+  background-color: #fff;
+} */
+
+/* --------------------------------------- */
+.listBlock {
+  min-width: 330px;
+  height: 95%;
+  background-color: rgba(49, 49, 49, 0.7);
+  margin: 15px;
+  margin-right: 7px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-style: solid;
+  border-color: rgb(223, 223, 223);
+  border: 1px;
+  border-radius: 15px;
+}
+.listBlock .blockHead {
+  height: 35px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.listName {
+  margin: 10px;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.8);
+}
+.listContent {
+  min-height: calc(65vh - 100px);
+  max-height: calc(65vh - 100px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.task {
+  min-width: 300px;
+  height: 120px;
+  min-height: 120px;
+  background-color: #ffffffe6;
+  border: 1px #ffffff solid;
+  border-radius: 15px;
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.task:hover {
+  cursor: pointer;
+}
+
+.t_head {
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.t_priority {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  width: 100px;
+  padding-left: 10px;
+}
+.t_done {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  background-color: #8ad8a8;
+  width: 60px;
+  border: 1px #8ad8a8 solid;
+  border-radius: 30px;
+  text-align: center;
+  display: none;
+}
+
+.t_priority.Low {
+  background-color: rgb(108, 137, 172);
+}
+.t_priority.Normal {
+  background-color: rgb(127, 175, 151);
+}
+.t_priority.Mid {
+  background-color: rgb(236, 167, 110);
+}
+.t_priority.High {
+  background-color: rgb(226, 110, 110);
+}
+.t_priority.Critical {
+  background-color: rgb(193, 87, 197);
+}
+.t_content {
+  width: 90%;
+  height: 40%;
+  margin-left: 5%;
+  margin-right: 5%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.t_botton {
+  height: 32px;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.userIconWraper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.header {
+  border: 1px #fff solid;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  background-color: rgb(255, 255, 255);
+  background-size: contain;
+}
+.progressing {
+  margin-left: 2%;
+  width: 90px;
+  height: 30px;
+  background-color: #fff;
+}

@@ -2,3 +2,9 @@
   background-color: #fff !important;
   color: #1d7afc !important;
 }
+
+.app-content {
+  /* border: red 1px solid; */
+  position: relative;
+  overflow: scroll;
+}

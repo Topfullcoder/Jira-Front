@@ -12,9 +12,18 @@
   height: 20px;
 }
 
-.app-board {
+/* .app-board {
   height: 65vh;
   width: 100%;
   display: -webkit-inline-box;
   overflow: scroll;
+} */
+
+.main_content {
+  background-color: unset;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }

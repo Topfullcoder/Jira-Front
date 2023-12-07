@@ -2,6 +2,7 @@ import { ThunkAction } from "redux-thunk";
 import { AppState } from "../store";
 import { AnyAction, Dispatch } from "redux";
 import { getUserAccessToken } from "./../../config/";
+import { Tasks, Task } from "./../../Types/Task";
 import { CreatePro } from "../../Types/CreateProject";
 import axios from "axios";
 
@@ -40,10 +41,20 @@ interface Stage {
   stage: string;
 }
 
+interface List {
+  id: number;
+  title: string;
+  taskList: Task[];
+}
+
+let stagelist: Stage[] = [];
+let taskList: Task[] = [];
+
 export const getStageList = async () => {
   try {
     const response = await http.get("api/v1/stages/list");
     const sortedData = response.data.sort((a: Stage, b: Stage) => a.id - b.id);
+    stagelist = sortedData;
     return sortedData;
   } catch (err: any) {
     console.log("Err", err);
@@ -53,9 +64,22 @@ export const getStageList = async () => {
 export const getTicketList = async () => {
   try {
     const response = await http.get("api/v1/tickets/list");
-    console.log(response);
+    taskList = response.data;
     return response;
   } catch (err: any) {
     console.log("Err", err);
   }
 };
+
+function init() {
+  let tp_list: List[];
+  tp_list = stagelist.map((stage, idx) => {
+    const tp_tasks = taskList.filter((task) => task.stages[0].id === stage.id);
+    return {
+      id: stage.id,
+      title: stage.stage,
+      taskList: tp_tasks,
+    };
+  });
+  console.log("List => ", tp_list);
+}
