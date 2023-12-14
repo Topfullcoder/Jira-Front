@@ -1,0 +1,23 @@
+.project-landing {
+  margin-left: 50px;
+  margin-right: 50px;
+  background: #fff;
+}
+
+.project-head {
+  display: table;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.top-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-head {
+  display: flex;
+  flex-direction: row;
+}

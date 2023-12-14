@@ -109,15 +109,15 @@
 
 /* --------------------------------------- */
 .listBlock {
-  min-width: 330px;
+  min-width: 100px;
   height: 95%;
-  background-color: rgba(49, 49, 49, 0.7);
+  background-color: #f7f8f9;
   margin: 15px;
   margin-right: 7px;
   margin-top: 10px;
   margin-bottom: 10px;
   border-style: solid;
-  border-color: rgb(223, 223, 223);
+  border-color: #6278a3;
   border: 1px;
   border-radius: 15px;
 }
@@ -130,8 +130,8 @@
 }
 .listName {
   margin: 10px;
-  font-size: 24px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  color: #6278a3;
 }
 .listContent {
   min-height: calc(65vh - 100px);
@@ -157,12 +157,15 @@
 }
 
 .t_head {
-  margin: 5px;
-  padding: 5px;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  margin-bottom: 8px;
 }
 .t_priority {
   font-size: 16px;

@@ -8,7 +8,11 @@ import {
   DragUpdate,
 } from "react-beautiful-dnd";
 import { Layout, Input, Typography, Avatar, Tooltip } from "antd";
-import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  UserAddOutlined,
+  PlusSquareOutlined,
+} from "@ant-design/icons";
 import TicCard from "./../TicketCard";
 import { Task } from "./../../Types/Task";
 import { ArrColor } from "../../Data";
@@ -203,6 +207,9 @@ const SprintBoard = () => {
                 <Container ref={provided.innerRef} {...provided.droppableProps}>
                   {listBlocks}
                   {provided.placeholder}
+                  <div className="add-lb">Add Button</div>
+                  <PlusSquareOutlined />
+                  <div className="add-right">Add Right</div>
                 </Container>
               )}
             </Droppable>

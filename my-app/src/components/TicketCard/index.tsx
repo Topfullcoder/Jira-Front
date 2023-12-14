@@ -63,13 +63,13 @@ const CustomCard: React.FC<CustomCardProps> = ({
           draggable
           {...provided.dragHandleProps}
         >
-          <Card
+          {/* <Card
             style={gridStyle}
-            actions={[
-              <SettingOutlined key="setting" />,
-              <EditOutlined key="edit" />,
-              <EllipsisOutlined key="ellipsis" />,
-            ]}
+            // actions={[
+            //   <SettingOutlined key="setting" />,
+            //   <EditOutlined key="edit" />,
+            //   <EllipsisOutlined key="ellipsis" />,
+            // ]}
             title={title}
           >
             <Meta
@@ -86,7 +86,15 @@ const CustomCard: React.FC<CustomCardProps> = ({
               }
               description={acceptanceCriteria}
             />
-          </Card>
+          </Card> */}
+          <div className="t_head">{title}</div>
+          <div className="t_content">
+            <span>{acceptanceCriteria}</span>
+          </div>
+          <div className="t_botton">
+            <div className="progressing" />
+            <div className="userIconWraper">{user}</div>
+          </div>
         </div>
       )}
     </Draggable>
@@ -151,39 +159,3 @@ const App: React.FC<AppProps> = ({ title, tasks, draggableId, index }) => {
 };
 
 export default App;
-//   <Card
-//   className="app-card-header"
-//   title={
-//     <Input
-//       placeholder="Borderless"
-//       bordered={false}
-//       value={cardTitle}
-//       onChange={handleTitleChange}
-//     />
-//   }
-//   style={{ height: "fit-content" }}
-//   bordered={true}
-//   size="small"
-//   headStyle={{
-//     display: "contents",
-//     position: "sticky",
-//     zIndex: 4,
-//     backgroundColor: "gray",
-//   }}
-//   {...provided.dragHandleProps}
-// >
-//   <Droppable droppableId={draggableId} type="task">
-//     {(provided, snapshot) => {
-//       return (
-//         <div
-//           className="listContent"
-//           ref={provided.innerRef}
-//           {...provided.droppableProps}
-//         >
-//           {/* {tasklist} */}
-//           {provided.placeholder}
-//         </div>
-//       );
-//     }}
-//   </Droppable>
-// </Card>

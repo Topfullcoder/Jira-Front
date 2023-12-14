@@ -49,3 +49,7 @@
 ::-webkit-scrollbar-track {
   background: #14141462;
 }
+
+.ant-layout {
+  background: #fff !important;
+}
