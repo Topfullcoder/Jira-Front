@@ -6,7 +6,7 @@ import {
   DraggableProvided,
   DraggableStateSnapshot,
 } from "react-beautiful-dnd";
-import { Card, Input, Avatar, Tooltip } from "antd";
+import { Card, Input, Avatar, Tooltip, Button } from "antd";
 import {
   EditOutlined,
   EllipsisOutlined,
@@ -14,6 +14,8 @@ import {
 } from "@ant-design/icons";
 import { Task } from "./../../Types/Task";
 import "./ticketcard.css";
+import { ArrColor } from "../../Data";
+import { CustomInput } from "./../CustomInput/index";
 
 const { Meta } = Card;
 
@@ -39,6 +41,7 @@ interface CustomCardProps {
   storyPoint: number;
   description: string;
   title: string;
+  ticket: string;
   acceptanceCriteria: string;
 }
 
@@ -51,49 +54,90 @@ const CustomCard: React.FC<CustomCardProps> = ({
   storyPoint,
   description,
   title,
+  ticket,
   acceptanceCriteria,
 }) => {
+  const [edit, setEdit] = useState(false);
+  const [value, setValue] = useState(title);
+
+  const save = (val: string) => {
+    setValue(val);
+    setEdit(false);
+  };
+
+  const close = () => {
+    console.log(value);
+    setEdit(false);
+  };
+
+  const editButtonClick = () => {
+    setEdit(true);
+  };
+
   return (
     <Draggable draggableId={draggableId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
         <div
-          // className="task"
+          className="task"
           {...provided.draggableProps}
           ref={provided.innerRef}
           draggable
           {...provided.dragHandleProps}
         >
-          {/* <Card
-            style={gridStyle}
-            // actions={[
-            //   <SettingOutlined key="setting" />,
-            //   <EditOutlined key="edit" />,
-            //   <EllipsisOutlined key="ellipsis" />,
-            // ]}
-            title={title}
-          >
-            <Meta
-              avatar={
-                <Avatar
-                  src={
-                    <Tooltip title={user} placement="top">
-                      <Avatar style={{ backgroundColor: "#87d068" }}>
-                        {user[0]}
-                      </Avatar>
-                    </Tooltip>
-                  }
+          <div className="t_head">
+            <div>
+              {!edit ? (
+                <Tooltip title={value} placement="top">
+                  {value}
+                </Tooltip>
+              ) : (
+                <CustomInput
+                  defaultValue={value}
+                  saveText={save}
+                  cancelEdit={close}
                 />
-              }
-              description={acceptanceCriteria}
-            />
-          </Card> */}
-          <div className="t_head">{title}</div>
+              )}
+            </div>
+            <div className="edit-display">
+              <Tooltip title="Edit Summary" placement="top">
+                <button
+                  style={{ border: "none", backgroundColor: "transparent" }}
+                  onClick={editButtonClick}
+                >
+                  <EditOutlined />
+                </button>
+              </Tooltip>
+            </div>
+          </div>
           <div className="t_content">
-            <span>{acceptanceCriteria}</span>
+            <span
+              style={{
+                color: "black",
+                backgroundColor: "#dfd8fd",
+                fontWeight: 600,
+              }}
+            >
+              {acceptanceCriteria}
+            </span>
           </div>
           <div className="t_botton">
-            <div className="progressing" />
-            <div className="userIconWraper">{user}</div>
+            <div className="progressing">
+              <Tooltip title={ticket} placement="top">
+                {ticket}
+              </Tooltip>
+            </div>
+            <div className="userIconWraper">
+              <Tooltip title={user} placement="top">
+                <Avatar
+                  style={{
+                    backgroundColor:
+                      ArrColor[user.toUpperCase().charCodeAt(0) - 65],
+                  }}
+                >
+                  {user[0]}
+                </Avatar>
+              </Tooltip>
+            </div>
           </div>
         </div>
       )}
@@ -102,11 +146,21 @@ const CustomCard: React.FC<CustomCardProps> = ({
 };
 
 const App: React.FC<AppProps> = ({ title, tasks, draggableId, index }) => {
-  const [cardTitle, setCardTitle] = useState(title);
+  const [edit, setEdit] = useState(false);
+  const [value, setValue] = useState(title);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setCardTitle(value);
+  const save = (val: string) => {
+    setValue(val);
+    setEdit(false);
+  };
+
+  const close = () => {
+    console.log(value);
+    setEdit(false);
+  };
+
+  const handleClick = () => {
+    setEdit(true);
   };
 
   const tasklist = tasks.map((task, idx) => (
@@ -118,6 +172,7 @@ const App: React.FC<AppProps> = ({ title, tasks, draggableId, index }) => {
       user={task.reporters[0].username}
       storyPoint={task.storyPoint}
       title={task.title}
+      ticket={task.ticketNumber}
       description={task.description}
       acceptanceCriteria={task.acceptanceCriteria}
       task={task}
@@ -135,7 +190,15 @@ const App: React.FC<AppProps> = ({ title, tasks, draggableId, index }) => {
         >
           <div className="blockHead" {...provided.dragHandleProps}>
             <div className="listName">
-              <span>{title}</span>
+              {!edit ? (
+                <span onDoubleClick={handleClick}>{value}</span>
+              ) : (
+                <CustomInput
+                  defaultValue={value}
+                  saveText={save}
+                  cancelEdit={close}
+                />
+              )}
             </div>
           </div>
           <Droppable droppableId={draggableId} type="task">

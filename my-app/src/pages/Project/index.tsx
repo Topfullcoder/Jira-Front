@@ -18,9 +18,8 @@ import {
 } from "@ant-design/icons";
 import { ArrColor } from "../../Data";
 
-import CreateCard from "../../components/CreateProjectSample";
+import CreateCard from "../../components/CreateProject";
 import "./project.css";
-import { right } from "@xstyled/system";
 
 interface DataType {
   key: string;
@@ -116,18 +115,8 @@ const Search = Input.Search;
 
 const App: React.FC = () => {
   const [searchPlaceholder, setSearchPlaceholder] = useState("");
-  const [searchStyle, setSearchStyle] = useState({ width: "100px" });
+  const [searchStyle, setSearchStyle] = useState({ width: "150px" });
   const [isCreate, setIsCreate] = useState(false);
-
-  const handleFocus = () => {
-    setSearchStyle({ width: "150px" });
-    setSearchPlaceholder("Search this board");
-  };
-
-  const handleBlur = () => {
-    setSearchStyle({ width: "100px" });
-    setSearchPlaceholder("");
-  };
 
   const showModal = async () => {
     setIsCreate(true);
@@ -139,25 +128,18 @@ const App: React.FC = () => {
 
   return (
     <div className="project-landing">
-      <div className="project-head">
-        <div className="top-head">
-          <h1>Project</h1>
-        </div>
-        <div className="search-head">
-          <div>
-            <Input
-              suffix={<SearchOutlined />}
-              placeholder={searchPlaceholder}
-              style={searchStyle}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-          </div>
-          <div>
-            <Button type="primary" onClick={showModal} size="middle">
-              Create Project
-            </Button>
-          </div>
+      <div className="project-container">
+        <h1 id="project-title">Projects</h1>
+        <div className="project-actions">
+          <Input
+            suffix={<SearchOutlined />}
+            placeholder="Search Project"
+            style={searchStyle}
+          />
+
+          <button id="create-project-btn" onClick={showModal}>
+            Create Project
+          </button>
           <Modal open={isCreate} onCancel={handleCancel} footer={null}>
             <CreateCard onCreate={handleCancel} />
           </Modal>
@@ -166,7 +148,7 @@ const App: React.FC = () => {
       <div>
         <Table
           columns={columns}
-          pagination={{ position: ["bottomLeft"] }}
+          pagination={{ position: ["bottomLeft"], pageSize: 10 }}
           dataSource={data}
         />
       </div>

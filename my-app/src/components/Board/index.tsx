@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "@xstyled/styled-components";
+import styled, { color } from "@xstyled/styled-components";
 import {
   DragDropContext,
   Droppable,
@@ -179,7 +179,12 @@ const SprintBoard = () => {
           <Avatar.Group>
             {userlist.map((user, idx) => (
               <Tooltip key={idx} title={user.username} placement="bottom">
-                <Avatar style={{ background: ArrColor[idx] }}>
+                <Avatar
+                  style={{
+                    backgroundColor:
+                      ArrColor[user.username.toUpperCase().charCodeAt(0) - 65],
+                  }}
+                >
                   {user.username[0]}
                 </Avatar>
               </Tooltip>

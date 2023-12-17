@@ -1,115 +1,5 @@
-/* .card-children {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
-
-/* .ant-card-head {
-  display: contents;
-  position: fixed;
-  z-index: 4;
-} */
-/* .task {
-  min-width: 300px;
-  height: 120px;
-  min-height: 120px;
-  background-color: #ffffffe6;
-  border: 1px #ffffff solid;
-  border-radius: 15px;
-  margin-top: 15px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-.task:hover {
-  cursor: pointer;
-}
-
-.t_head {
-  margin: 5px;
-  padding: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-.t_priority {
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  width: 100px;
-  padding-left: 10px;
-}
-.t_done {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgb(255, 255, 255);
-  background-color: #8ad8a8;
-  width: 60px;
-  border: 1px #8ad8a8 solid;
-  border-radius: 30px;
-  text-align: center;
-  display: none;
-}
-
-.t_priority.Low {
-  background-color: rgb(108, 137, 172);
-}
-.t_priority.Normal {
-  background-color: rgb(127, 175, 151);
-}
-.t_priority.Mid {
-  background-color: rgb(236, 167, 110);
-}
-.t_priority.High {
-  background-color: rgb(226, 110, 110);
-}
-.t_priority.Critical {
-  background-color: rgb(193, 87, 197);
-}
-.t_content {
-  width: 90%;
-  height: 40%;
-  margin-left: 5%;
-  margin-right: 5%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.t_botton {
-  height: 32px;
-  width: 96%;
-  margin-left: 2%;
-  margin-right: 2%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-.userIconWraper {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-}
-.header {
-  border: 1px #fff solid;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  margin-left: 5px;
-  background-color: rgb(255, 255, 255);
-  background-size: contain;
-}
-.progressing {
-  margin-left: 2%;
-  width: 90px;
-  height: 30px;
-  background-color: #fff;
-} */
-
-/* --------------------------------------- */
 .listBlock {
-  min-width: 100px;
+  min-width: 230px;
   height: 95%;
   background-color: #f7f8f9;
   margin: 15px;
@@ -130,8 +20,15 @@
 }
 .listName {
   margin: 10px;
+  height: 37px;
+  width: 100%;
+  text-align: start;
   font-size: 14px;
   color: #6278a3;
+  border-radius: 20%;
+}
+.listName:hover {
+  background-color: #e9ebee;
 }
 .listContent {
   min-height: calc(65vh - 100px);
@@ -142,7 +39,7 @@
   justify-content: flex-start;
 }
 .task {
-  min-width: 300px;
+  min-width: 200px;
   height: 120px;
   min-height: 120px;
   background-color: #ffffffe6;
@@ -154,19 +51,43 @@
 }
 .task:hover {
   cursor: pointer;
+  background-color: #e9f2ff;
 }
 
 .t_head {
   width: 100%;
   display: flex;
   flex-direction: row;
-  margin: 0;
-  padding: 0;
+  padding-left: 11px;
   font-size: 14px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100;
   margin-bottom: 8px;
+  padding-top: 10px;
+  align-items: center;
 }
+
+.t_head:hover {
+  text-decoration: underline;
+}
+
+.t_head:hover .edit-display {
+  display: block;
+}
+
+.edit-display {
+  display: none;
+  margin-left: 8px;
+}
+
+.edit-display:hover {
+  background-color: #c1d5f4;
+}
+
+.edit-display:active {
+  background-color: #b0c4e4;
+}
+
 .t_priority {
   font-size: 16px;
   font-weight: bold;
